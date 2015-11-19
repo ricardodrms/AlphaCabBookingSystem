@@ -9,34 +9,42 @@
     </head> 
     <body> 
         <%
-            String username = request.getParameter("username");
+            String Registration = request.getParameter("Resgistration");
             String password = request.getParameter("password");
             String userType = request.getParameter("usertype");
             //need database info in here
-            String driver = "oracle.jdbc.driver.OracleDriver";
-            String dbURL = "jdbc:oracle:thin:@10.113.130.22:1521:ORCL";
-            String dbuser = "user";
-            String dbpassword = "password";
+            Connection con;
+            ResultSet rs;
             Connection theConnection = null;
             PreparedStatement theStatement = null;
 
             try {
-                Class.forName(driver);
-                theConnection = DriverManager.getConnection(dbURL, dbuser, dbpassword);
-                theStatement = theConnection.prepareStatement("select * from USERNAME where username=? and password=?");
-                theStatement.setString(1, request.getParameter("username"));
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ESDpractical", "root", "");
+                theStatement = theConnection.prepareStatement("select * from Drivers where Registration=? and password=?");
+                theStatement.setString(1, request.getParameter("Registration"));
                 theStatement.setString(2, request.getParameter("password"));
-                ResultSet theResult = theStatement.executeQuery();
+                rs = theStatement.executeQuery();
 
-                if (theResult.next()) {
+                if (rs.next()) {
+                    if (Registration.equals("Admin")) {
+                        
+                        session.setAttribute("Registration", Registration);
+                        response.sendRedirect("adminpage");
+                    } else {
+                        out.print("Driver stuff");
+                        session.setAttribute("Registration", Registration);
+                        response.sendRedirect("driver page");
+                    }
                     System.out.println("Success");
+
                 } else {
                     System.out.println("Failed");
                 }
-                
+                rs.close();
+                theStatement.close();
+                con.close();
                 //add if statement so if admin then go to admin page if driver go to driver page
-                
-
             } catch (Exception e) {
                 System.out.println("Exception occured! " + e.getMessage() + " " + e.getStackTrace());
             }

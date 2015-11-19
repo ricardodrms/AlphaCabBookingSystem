@@ -11,7 +11,7 @@
       <legend><h2>Sign in Details</h2> </legend>
         <form action="LoginCheck.jsp" method="post"> 
 
-            <br/>Username:<input type="text" name="username"/> 
+            <br/>Registration:<input type="text" name="Registration"/> 
             <br/>Password:<input type="password" name="password"/> 
             <br/>
             <tr>
