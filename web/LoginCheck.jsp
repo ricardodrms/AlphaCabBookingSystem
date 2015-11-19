@@ -6,48 +6,31 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Check</title> 
+
     </head> 
     <body> 
         <%
-            String Registration = request.getParameter("Resgistration");
-            String password = request.getParameter("password");
-            String userType = request.getParameter("usertype");
-            //need database info in here
-            Connection con;
-            ResultSet rs;
-            Connection theConnection = null;
-            PreparedStatement theStatement = null;
-
             try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ESDpractical", "root", "");
-                theStatement = theConnection.prepareStatement("select * from Drivers where Registration=? and password=?");
-                theStatement.setString(1, request.getParameter("Registration"));
-                theStatement.setString(2, request.getParameter("password"));
-                rs = theStatement.executeQuery();
-
+                String Name = request.getParameter("Name");
+                String password = request.getParameter("password");
+                Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Alpha", "root", "");
+                PreparedStatement pst = conn.prepareStatement("Select Name,password from Drivers where Name=? and password=?");
+                pst.setString(1, Name);
+                pst.setString(2, password);
+                ResultSet rs = pst.executeQuery();
+                out.println("Registration is " + Name);
+                out.println("pass" + password);
                 if (rs.next()) {
-                    if (Registration.equals("Admin")) {
-                        
-                        session.setAttribute("Registration", Registration);
-                        response.sendRedirect("adminpage");
-                    } else {
-                        out.print("Driver stuff");
-                        session.setAttribute("Registration", Registration);
-                        response.sendRedirect("driver page");
-                    }
-                    System.out.println("Success");
-
+                    out.println("Valid login credentials");
                 } else {
-                    System.out.println("Failed");
+                    out.println("Invalid login credentials");
                 }
-                rs.close();
-                theStatement.close();
-                con.close();
-                //add if statement so if admin then go to admin page if driver go to driver page
             } catch (Exception e) {
-                System.out.println("Exception occured! " + e.getMessage() + " " + e.getStackTrace());
+                out.println("Something went wrong !! Please try again");
             }
+
+
         %>
     </body>
 </html>
