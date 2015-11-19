@@ -13,6 +13,7 @@ import java.util.Date;
  * @author rocharic
  */
 public class Journey {
+    private int id;
     private String destination;
     private Customer customer;
     private Driver driver;
@@ -21,7 +22,8 @@ public class Journey {
     private Time time;
 
     //for getting from DB
-    public Journey(String destination, Customer customer, Driver driver, Date date, Time time, double distance) {
+    public Journey(int id, String destination, Customer customer, Driver driver, Date date, Time time, double distance) {
+        this.id = id;
         this.destination = destination;
         this.customer = customer;
         this.driver = driver;
@@ -38,6 +40,22 @@ public class Journey {
         this.date = demand.getDate();
         this.time = demand.getTime();
         this.distance = demand.getDistance();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
     
 

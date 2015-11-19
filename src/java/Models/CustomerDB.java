@@ -5,18 +5,49 @@
  */
 package Models;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author k9-sheppard
  */
 public class CustomerDB {
     
-    public void addCustomer(Customer cust){
-        
+    private Connection conn;
+    private Statement state;
+    private ResultSet rs;
+    
+    public CustomerDB() {
+        this.conn = DBConfig.getConnection();
     }
     
-    public void editCustomer(Customer oldCust, Customer newCust){
-        
+    public boolean addCustomer(Customer cust){
+        try {
+            state = conn.createStatement();
+            state.executeUpdate(String.format(
+                    "INSERT INTO customer (`Name`, `Address`) VALUES ('%s', '%s')", cust.getName(), cust.getAddress()));
+            state.close();
+
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean editCustomer(Customer cust){
+        try {
+            state = conn.createStatement();
+            state.executeUpdate(String.format(
+                    "UPDATE customer SET Name = '%s', Address = '%s' WHERE id = %d", cust.getName(), cust.getAddress(), cust.getId()));
+            state.close();
+
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
     
     

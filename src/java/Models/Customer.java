@@ -10,12 +10,27 @@ package Models;
  * @author ricardodrms
  */
 public class Customer {
+    private int id;
     private String name;
     private String address;
 
+    public Customer(int id, String name, String address) {
+        this.name = name;
+        this.address = address;
+        this.id = id;
+    }
+    
     public Customer(String name, String address) {
         this.name = name;
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getName() {
