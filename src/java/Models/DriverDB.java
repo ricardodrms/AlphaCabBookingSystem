@@ -79,11 +79,11 @@ public class DriverDB {
         return drivers;
     }
     
-    public Driver doLogin(String name, String pass){
+    public Driver doDriverLogin(String name, String pass){
         Driver driver = null;
         try {
             state = conn.createStatement();
-            rs = state.executeQuery(String.format("SELECT * from drivers WHERE Name LIKE '%s' AND password LIKE '%s'", name, pass));
+            rs = state.executeQuery(String.format("SELECT * from drivers WHERE Name = '%s' AND password = '%s'", name, pass));
             while(rs.next()){
 
                 driver = new Driver(rs.getString(1), rs.getString(2), rs.getString(3));
@@ -125,5 +125,27 @@ public class DriverDB {
 
         }//try
         return journeys;
+    }
+    
+    public HeadOffice doAdminLogin(String name, String pass){
+        HeadOffice ho = null;
+        
+        try {
+            state = conn.createStatement();
+            rs = state.executeQuery(String.format("SELECT * from drivers WHERE Registration LIKE 'admin' Name = '%s' AND password = '%s'", name, pass));
+            while(rs.next()){
+
+                ho = new HeadOffice(rs.getString(2), rs.getString(3));
+            }
+            
+            state.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            //System.err.println("Error: " + e);
+
+        }//try
+        
+        return ho;
     }
 }

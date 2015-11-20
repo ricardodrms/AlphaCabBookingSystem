@@ -49,7 +49,7 @@ public class NewServlet extends HttpServlet {
             }
             out.println("<br><br><br><br><br><br><br>");
             CustomerDB cdb = new CustomerDB();
-            out.println("Added cust " + cdb.addCustomer(new Customer("fred penis", "yate")) + "<br><br>");
+            out.println("Added cust " + cdb.editCustomer(new Customer(8, "fred jones", "yate")) + "<br><br>");
             
             out.println("</body>");
             out.println("</html>");

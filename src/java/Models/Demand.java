@@ -13,8 +13,8 @@ import java.util.Date;
  * @author rocharic
  */
 public class Demand {
+    private int id;
     private Customer customer;
-    private String address;
     private String destination;
     private Date date;
     private Time time;
@@ -22,9 +22,8 @@ public class Demand {
     private double distance;
 
     //for when they are created by a customer
-    public Demand(Customer customer, String address, String destination, Date date, Time time) {
+    public Demand(Customer customer, String destination, Date date, Time time) {
         this.customer = customer;
-        this.address = address;
         this.destination = destination;
         this.date = date;
         this.time = time;
@@ -33,9 +32,19 @@ public class Demand {
     }
     
     //for use when reading from DB
-    public Demand(Customer customer, String address, String destination, Date date, Time time, Status status) {
+    public Demand(int id, String name, String address, String destination, Date date, Time time, Status status) {
+        this.id = id;
+        this.customer = new Customer(name, address);
+        this.destination = destination;
+        this.date = date;
+        this.time = time;
+        this.status = status;
+        distance = calcDistance();
+    }
+    
+    public Demand(int id, Customer customer, String destination, Date date, Time time, Status status) {
+        this.id = id;
         this.customer = customer;
-        this.address = address;
         this.destination = destination;
         this.date = date;
         this.time = time;
@@ -43,12 +52,18 @@ public class Demand {
         distance = calcDistance();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public double getDistance() {
         return distance;
     }
 
-    
-    
     public Customer getCustomer() {
         return customer;
     }
@@ -58,11 +73,11 @@ public class Demand {
     }
 
     public String getAddress() {
-        return address;
+        return customer.getAddress();
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getName() {
+        return customer.getName();
     }
 
     public String getDestination() {
