@@ -4,10 +4,10 @@
     Author     : Kyran
 --%>
 
-<%@page import="models1.DriverDB"%>
+<%@page import="models.DriverDB"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.List"%>
-<%@page import="models1.Driver"%>
+<%@page import="models.Driver"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

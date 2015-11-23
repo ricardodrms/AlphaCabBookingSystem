@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers1;
+package controllers;
 
-import models1.CustomerDB;
-import models1.DriverDB;
-import models1.Journey;
+import models.CustomerDB;
+import models.DriverDB;
+import models.Journey;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;

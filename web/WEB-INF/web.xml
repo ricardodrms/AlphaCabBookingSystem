@@ -13,11 +13,11 @@
         <param-value> </param-value>
     </context-param>
     <listener>
-        <listener-class>controllers1.DBListener</listener-class>
+        <listener-class>controllers.DBListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>NewServlet</servlet-name>
-        <servlet-class>controllers1.NewServlet</servlet-class>
+        <servlet-class>controllers.NewServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
