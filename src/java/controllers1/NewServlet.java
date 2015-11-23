@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package controllers1;
 
-import Models.*;
+import models1.CustomerDB;
+import models1.DriverDB;
+import models1.Journey;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +37,9 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            DriverDB ddb = new DriverDB();
-            List<Journey> journeys = ddb.getJobsForDriver("AK52VZV");
+            DriverDB driverdb = new DriverDB((Connection)request.getServletContext().getAttribute("connection"));
+            
+            List<Journey> journeys = driverdb.getJobsForDriver("AK52VZV");
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -48,8 +52,8 @@ public class NewServlet extends HttpServlet {
                 out.println("<br>" + journeys.get(i).getDestination());
             }
             out.println("<br><br><br><br><br><br><br>");
-            CustomerDB cdb = new CustomerDB();
-            out.println("Added cust " + cdb.editCustomer(new Customer(8, "fred jones", "yate")) + "<br><br>");
+            CustomerDB cdb = new CustomerDB((Connection)request.getServletContext().getAttribute("connection"));
+//            out.println("Added cust " + cdb.editCustomer(new Customer(8, "fred jones", "yate")) + "<br><br>");
             
             out.println("</body>");
             out.println("</html>");

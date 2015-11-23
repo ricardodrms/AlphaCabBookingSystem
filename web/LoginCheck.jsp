@@ -1,4 +1,4 @@
-<%@page import="Models.DriverDB"%>
+<%@page import="models.DriverDB"%>
 <%@page import ="java.sql.*" %>
 <%@page import ="java.io.IOException" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%> 
@@ -17,9 +17,9 @@
                 String Name = request.getParameter("Name");
                 String password = request.getParameter("password");
                 
-                DriverDB Driver = new Models.DriverDB();
+                DriverDB Driver = new models.DriverDB((Connection)request.getServletContext().getAttribute("connection"));
                 
-                Drivername = Driver.doLogin(Name, password).getName();
+                Drivername = Driver.doDriverLogin(Name, password).getName();
                 //Drivername = Driver.doLogin(Name, password);
                 if (Drivername != null){
                     

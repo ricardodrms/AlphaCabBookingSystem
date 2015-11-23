@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package models1;
 
 /**
  *
- * @author Jarrett
+ * @author rocharic
  */
-public class DriverController {
-    
+public enum Status {
+    Outstanding, Completed, Assigned
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Models;
+package models1;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,8 +24,8 @@ public class BookingDB {
     private Statement state;
     private ResultSet rs;
 
-    public BookingDB() {
-        this.conn = DBConfig.getConnection();
+    public BookingDB(Connection conn) {
+        this.conn = conn;
     }
     
     public boolean addBooking(Demand demand){

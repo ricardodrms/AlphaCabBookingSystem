@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Models;
+package models1;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,8 +22,8 @@ public class CustomerDB {
     private Statement state;
     private ResultSet rs;
     
-    public CustomerDB() {
-        this.conn = DBConfig.getConnection();
+    public CustomerDB(Connection conn) {
+        this.conn = conn;
     }
     
     public boolean addCustomer(Customer cust){
