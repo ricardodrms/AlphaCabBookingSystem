@@ -12,15 +12,15 @@
         <title>Alphacab</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Menu</h1>
         <div id='cssmenu'>    
             <ul>
                 <li class='active'><a href='index.html'>Home</a></li>
-                <li><a href=''>Assign booking</a></li>
+                <li><a href='assignBooking.jsp'>Assign booking</a></li>
                 <li><a href='customerList.jsp'>View Customers</a></li>
                 <li><a href='driverList.jsp'>View Drivers</a></li>
-                <li><a href='#'>View Journeys</a></li>
-                <li><a href='#'>View Daily Report</a></li>
+                <li><a href='journeysByDay.jsp'>View All Journeys</a></li>
+                <li><a href='dailyReport.jsp'>View Daily Report</a></li>
             </ul>
         </div>
     </body>

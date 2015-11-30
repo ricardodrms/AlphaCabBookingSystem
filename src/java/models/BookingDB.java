@@ -21,16 +21,14 @@ import java.util.List;
 public class BookingDB {
     
     private Connection conn;
-    private Statement state;
-    private ResultSet rs;
-
+    
     public BookingDB(Connection conn) {
         this.conn = conn;
     }
     
     public boolean addBooking(Demand demand){
         try {
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
                     "INSERT INTO demands (Name, Address, Destination, Date, Time, Status) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
                     , demand.getName(), demand.getAddress(), demand.getDestination(), demand.getDate(), demand.getTime(), demand.getStatus()));
@@ -46,7 +44,7 @@ public class BookingDB {
         //set status to assigned/completed in demand table and also create a journey entry in journey table
         
          try {
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
                     "INSERT INTO journey (Destination, Distance, `Customer.id`, `Drivers.Registration`, Date, Time) VALUES ('%s', '%d', '%d', '%s', '%s', '%s')"
                     , demand.getDestination(), demand.getDistance(), demand.getCustomer().getId(), driver.getReg(), demand.getDate(), demand.getTime()));
@@ -63,8 +61,8 @@ public class BookingDB {
     public List<Demand> viewAllUnassignedBookings(){
          List<Demand> demands = new ArrayList<Demand>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery("SELECT * from demands WHERE status like 'outstanding'");
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery("SELECT * from demands WHERE status like 'outstanding'");
             while(rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("Name");
@@ -96,10 +94,12 @@ public class BookingDB {
     public List<Journey> viewAllCompletedBookings(){
         List<Journey> journeys = new ArrayList<Journey>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery(String.format(
-                    "SELECT * from Journey INNER JOIN drivers ON Journey.`Drivers.Registration`=Drivers.Registration " + 
-                            "INNER JOIN customer ON Journey.`Customer.id`=Customer.id"));
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(String.format(
+                    "SELECT * from Journey " + //INNER JOIN drivers ON Journey.`Drivers.Registration`=Drivers.Registration " + 
+                            "INNER JOIN customer ON Journey.`Customer.id`=Customer.id ORDER BY Date DESC"));
+            //commented out the drivers as if a driver is then deleted it wont show up their details
+            //shouldnt matter as method only used for displaying purposes
             while(rs.next()){
                 int id = rs.getInt("id");
                 String dest = rs.getString("Destination");
@@ -107,8 +107,8 @@ public class BookingDB {
                 Date date = rs.getDate("Date");
                 Time time = rs.getTime("Time");
                 Customer cust = new Customer(rs.getInt("Customer.id"), rs.getString("Name"), rs.getString("Address"));
-                Driver driver = new Driver(rs.getString("Registration"), rs.getString("Name"), rs.getString("password"));
-                journeys.add(new Journey(id, dest, cust, driver, date, time, distance));
+                //Driver driver = new Driver(rs.getString("Registration"), rs.getString("Name"), rs.getString("password"));
+                journeys.add(new Journey(id, dest, cust, null, date, time, distance));
             }
             
             state.close();
@@ -121,22 +121,23 @@ public class BookingDB {
         return journeys;
     }
     
-    public List<Journey> viewDailyBookings(Date date){
+    public List<Journey> viewDailyBookings(String date){
         //is it just completed ones or also outstanding?
         List<Journey> journeys = new ArrayList<Journey>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery(String.format(
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(String.format(
                     "SELECT * from Journey INNER JOIN drivers ON Journey.`Drivers.Registration`=Drivers.Registration " + 
-                            "INNER JOIN customer ON Journey.`Customer.id`=Customer.id WHERE date=%s", date.toString()));
+                            "INNER JOIN customer ON Journey.`Customer.id`=Customer.id WHERE date=%s", date));
             while(rs.next()){
                 int id = rs.getInt("id");
                 String dest = rs.getString("Destination");
                 double distance = rs.getDouble("Distance");
                 Time time = rs.getTime("Time");
+                Date d = rs.getDate("Date");
                 Customer cust = new Customer(rs.getInt("Customer.id"), rs.getString("Name"), rs.getString("Address"));
                 Driver driver = new Driver(rs.getString("Registration"), rs.getString("Name"), rs.getString("password"));
-                journeys.add(new Journey(id, dest, cust, driver, date, time, distance));
+                journeys.add(new Journey(id, dest, cust, driver, d, time, distance));
             }
             
             state.close();

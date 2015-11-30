@@ -20,6 +20,7 @@ public class Journey {
     private double distance;
     private Date date;
     private Time time;
+    private double cost;
 
     //for getting from DB
     public Journey(int id, String destination, Customer customer, Driver driver, Date date, Time time, double distance) {
@@ -30,6 +31,7 @@ public class Journey {
         this.date = date;
         this.time = time;
         this.distance = distance;
+        this.cost = calcCost();
     }
     
     //for asigning to driver
@@ -40,6 +42,7 @@ public class Journey {
         this.date = demand.getDate();
         this.time = demand.getTime();
         this.distance = demand.getDistance();
+        this.cost = calcCost();
     }
 
     public int getId() {
@@ -50,6 +53,14 @@ public class Journey {
         this.id = id;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+    
     public double getDistance() {
         return distance;
     }
@@ -57,7 +68,6 @@ public class Journey {
     public void setDistance(double distance) {
         this.distance = distance;
     }
-    
 
     public String getDestination() {
         return destination;
@@ -99,5 +109,8 @@ public class Journey {
         this.time = time;
     }
     
-    
+    public double calcCost(){
+        //this needs to go to whereever the pricing is stored and calculate
+        return 5;
+    }
 }

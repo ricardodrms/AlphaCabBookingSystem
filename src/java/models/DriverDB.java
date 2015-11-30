@@ -21,8 +21,6 @@ import java.util.List;
 public class DriverDB {
 
     private Connection conn;
-    private Statement state;
-    private ResultSet rs;
 
     public DriverDB(Connection conn) {
         this.conn = conn;
@@ -31,7 +29,7 @@ public class DriverDB {
     public boolean addDriver(Driver driver) {
         try {
 
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
                     "INSERT INTO drivers VALUES ('%s', '%s', '%s')", driver.getReg(), driver.getName(), driver.getPassword()));
             state.close();
@@ -42,11 +40,11 @@ public class DriverDB {
         return true;
     }
 
-    public boolean removeDriver(Driver driver) {
+    public boolean removeDriver(String reg) {
         try {
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
-                    "DELETE FROM drivers WHERE Registration='%s' AND Name='%s' AND password='%s'", driver.getReg(), driver.getName(), driver.getPassword()));
+                    "DELETE FROM drivers WHERE Registration='%s'", reg));
             state.close();
 
         } catch (SQLException e) {
@@ -60,8 +58,8 @@ public class DriverDB {
     public List<Driver> getAllDrivers() {
         List<Driver> drivers = new ArrayList<Driver>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery("SELECT * from drivers");
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery("SELECT * from drivers");
             while(rs.next()){
                 String reg = rs.getString(1);
                 String name = rs.getString(2);
@@ -82,8 +80,8 @@ public class DriverDB {
     public Driver doDriverLogin(String name, String pass){
         Driver driver = null;
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery(String.format("SELECT * from drivers WHERE Name = '%s' AND password = '%s'", name, pass));
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(String.format("SELECT * from drivers WHERE Name = '%s' AND password = '%s'", name, pass));
             while(rs.next()){
 
                 driver = new Driver(rs.getString(1), rs.getString(2), rs.getString(3));
@@ -102,8 +100,8 @@ public class DriverDB {
     public List<Journey> getJobsForDriver(String reg) {
         List<Journey> journeys = new ArrayList<Journey>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery(String.format(
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(String.format(
                     "SELECT * from Journey INNER JOIN drivers ON Journey.`Drivers.Registration`=Drivers.Registration " + 
                             "INNER JOIN customer ON Journey.`Customer.id`=Customer.id WHERE `Drivers.Registration`='%s'", reg));
             while(rs.next()){
@@ -131,8 +129,8 @@ public class DriverDB {
         HeadOffice ho = null;
         
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery(String.format("SELECT * from drivers WHERE Registration LIKE 'admin' Name = '%s' AND password = '%s'", name, pass));
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(String.format("SELECT * from drivers WHERE Registration LIKE 'admin' Name = '%s' AND password = '%s'", name, pass));
             while(rs.next()){
 
                 ho = new HeadOffice(rs.getString(2), rs.getString(3));

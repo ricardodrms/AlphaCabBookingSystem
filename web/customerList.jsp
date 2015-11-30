@@ -15,6 +15,9 @@
     </head>
     <body>
         <h1>All Alphacab customers</h1>
+        <form action="headOfficeHomePage.jsp">
+            <input type="submit" value="Back to menu">
+        </form>
         <br><br>
         <table  border="1" style="width:50%">
             <tr>

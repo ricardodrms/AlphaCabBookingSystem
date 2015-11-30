@@ -19,8 +19,6 @@ import java.util.List;
 public class CustomerDB {
     
     private Connection conn;
-    private Statement state;
-    private ResultSet rs;
     
     public CustomerDB(Connection conn) {
         this.conn = conn;
@@ -28,7 +26,7 @@ public class CustomerDB {
     
     public boolean addCustomer(Customer cust){
         try {
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
                     "INSERT INTO customer (`Name`, `Address`) VALUES ('%s', '%s')", cust.getName(), cust.getAddress()));
             state.close();
@@ -41,7 +39,7 @@ public class CustomerDB {
     
     public boolean editCustomer(Customer cust){
         try {
-            state = conn.createStatement();
+            Statement state = conn.createStatement();
             state.executeUpdate(String.format(
                     "UPDATE customer SET Name = '%s', Address = '%s' WHERE id = %d", cust.getName(), cust.getAddress(), cust.getId()));
             state.close();
@@ -55,8 +53,8 @@ public class CustomerDB {
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<Customer>();
         try {
-            state = conn.createStatement();
-            rs = state.executeQuery("SELECT * from customer");
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery("SELECT * from customer");
             while(rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("Name");
